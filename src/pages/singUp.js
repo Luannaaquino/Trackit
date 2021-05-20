@@ -1,34 +1,35 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import styled from "styled-components";
+import axios from "axios";
 
-import Loader from "react-loader-spinner"; //biblioteca da animação do login
+import Loader from "react-loader-spinner";// biblioteca
 import logo from "../images/logo.png";
-import UserContext from "../contexts/UserContext";
 
-export default function Login() {
+export default function SignUp() {
   const [disabled, setDisabled] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setUser } = useContext(UserContext);
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("");
   let history = useHistory();
 
   function loading(e) {
     e.preventDefault();
     setDisabled(true);
-    const data = { 
+    const data = {
       email,
+      name,
+      image,
       password,
     };
     const request = axios.post(
-      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
+      "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up",
       data
     );
 
-    request.then((response) => {
-      setUser(response.data);
-      history.push("/today");
+    request.then(() => {
+      history.push("/");
     });
     request.catch((error) => {
       alert(error.response.data.message);
@@ -37,11 +38,11 @@ export default function Login() {
   }
 
   return (
-    <StyledLoginPage>
+    <StyledSingUpPage>
       <img src={logo} alt="Logo TrackIt" />
       <Form onSubmit={loading}>
         <Input
-          type="email"
+          type="text"
           placeholder="email"
           disabled={disabled}
           value={email}
@@ -56,31 +57,47 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <Input
+          type="text"
+          placeholder="nome"
+          disabled={disabled}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+        <Input
+          type="text"
+          placeholder="foto"
+          disabled={disabled}
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+          required
+        />
         <Button type="submit" disabled={disabled}>
           {disabled ? (
             <Loader type="ThreeDots" color="#FFF" height={45} width={80} />
           ) : (
-            "Entrar"
+            "Cadastrar"
           )}
         </Button>
       </Form>
-      <SingUpLink
+      <LoginLink
         onClick={() => {
           if (disabled) {
             return;
           } else {
-            history.push("/signup");
+            history.push("/");
           }
         }}
         disabled={disabled}
       >
-        Não tem uma conta? Cadastre-se!
-      </SingUpLink>
-    </StyledLoginPage>
+        Já tem uma conta? Faça login!
+      </LoginLink>
+    </StyledSingUpPage>
   );
 }
 
-const StyledLoginPage = styled.div`
+const StyledSingUpPage = styled.div`
   width: 100%;
   background-color: #fff;
   padding-top: 65px;
@@ -93,6 +110,7 @@ const StyledLoginPage = styled.div`
     margin-bottom: 30px;
   }
 `;
+
 
 const Input = styled.input`
   width: 300px;
@@ -119,19 +137,18 @@ const Button = styled.button`
   line-height: 26px;
   text-align: center;
   color: #fff;
-
-`;
-
-const SingUpLink = styled.a`
-  font-size: 14px;
-  line-height: 17px;
-  text-align: center;
-  text-decoration-line: underline;
-  color: #52b6ff;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const LoginLink = styled.a`
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  text-decoration-line: underline;
+  color: #52b6ff;
 `;
