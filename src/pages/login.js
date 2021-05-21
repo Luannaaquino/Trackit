@@ -17,13 +17,13 @@ export default function Login() {
   function loading(e) {
     e.preventDefault();
     setDisabled(true);
-    const data = { 
+    const body = { 
       email,
       password,
     };
     const request = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login",
-      data
+      body
     );
 
     request.then((response) => {

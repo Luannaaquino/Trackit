@@ -17,7 +17,7 @@ export default function SignUp() {
   function loading(e) {
     e.preventDefault();
     setDisabled(true);
-    const data = {
+    const body = {
       email,
       name,
       image,
@@ -25,7 +25,7 @@ export default function SignUp() {
     };
     const request = axios.post(
       "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up",
-      data
+      body
     );
 
     request.then(() => {
