@@ -1,27 +1,36 @@
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import TasksContext from "../contexts/tasksContext";
 
 export default function Footer() {
+  const { ratio } = useContext(TasksContext);
+
   return (
     <Bottom>
-      <PageLink>Hábitos</PageLink>
+      <Link to="/habits">
+        <PageLink>Hábitos</PageLink>
+      </Link>
       <div>
-        <CircularProgressbar
-          value={75}
-          text={`Hoje`}
-          background
-          backgroundPadding={6}
-          styles={buildStyles({
-            backgroundColor: "#52B6FF",
-            textColor: "#fff",
-            pathColor: "#fff",
-            trailColor: "transparent",
-          })}
-        />
+        <Link to="/today">
+          <CircularProgressbar
+            value={ratio}
+            text={`Hoje`}
+            background
+            backgroundPadding={6}
+            styles={buildStyles({
+              backgroundColor: "#52B6FF",
+              textColor: "#fff",
+              pathColor: "#fff",
+              trailColor: "transparent",
+            })}
+          />
+        </Link>
       </div>
-      <PageLink>Histórico</PageLink>
+      <Link to="/history">
+        <PageLink>Histórico</PageLink>
+      </Link>
     </Bottom>
   );
 }
