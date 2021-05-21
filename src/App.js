@@ -3,9 +3,11 @@ import { useState } from "react";
 
 import UserContext from "./contexts/UserContext";
 import TasksContext from "./contexts/tasksContext"
+
 import Login from "./pages/login";
 import SignUp from "./pages/singUp"
 import Today from "./pages/today"
+import Habits from "./pages/habits"
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -24,6 +26,9 @@ export default function App() {
           <TasksContext.Provider value={{ ratio, setRatio }}>
             <Route path="/today" exact>
               <Today />
+            </Route>
+            <Route path="/habits" exact>
+              <Habits />
             </Route>
           </TasksContext.Provider>
         </Switch>
